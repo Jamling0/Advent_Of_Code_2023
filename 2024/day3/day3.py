@@ -19,18 +19,33 @@ def day3_p1():
 
 
 def day3_p2():
-    file = open("example2.txt", 'r')  # open('aocd2_input.txt', 'r')
+    file = open("aocd3_input.txt", 'r')  # open('aocd2_input.txt', 'r')
     data = file.read()
 
     muls = re.findall("(mul\([0-9]{1,3},[0-9]{1,3}\))|(do\(\))|(don\'t\(\))", data)
+    muls_new = []
 
-    for i in muls:
+    for i in range(len(muls)):
+        for j in range(len(muls[i])):
+            if muls[i][j] != "":
+                muls_new.append(muls[i][j])
 
-        i = i.replace("mul(", "")
-        i = i.replace(")", "")
-        i = list(map(int, i.split(',')))
-        muls_sum += i[0] * i[1]
-    print(muls)
+    do = True
+
+    muls_sum = 0
+
+    for i in muls_new:
+        if do and len(i) > 7:
+            i = i.replace("mul(", "")
+            i = i.replace(")", "")
+            i = list(map(int, i.split(',')))
+            muls_sum += i[0] * i[1]
+        elif len(i) == 4:
+            do = True
+        elif len(i) == 7:
+            do = False
+
+    return muls_sum
 
 if __name__ == '__main__':
     print(day3_p1())
